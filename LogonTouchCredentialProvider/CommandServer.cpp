@@ -1,19 +1,3 @@
-/*
- * Example illustrating HTTPS service.
- *
- * Create Certificate
- *    cd /tmp
- *    openssl genrsa -out server.key 1024
- *    openssl req -new -key server.key -out server.csr
- *    openssl x509 -req -days 3650 -in server.csr -signkey server.key -out server.crt
- *    openssl dhparam -out dh768.pem 768
- *
- * Server Usage:
- *    sudo ./distribution/example/https_service
- *
- * Client Usage:
- *    curl -k -v -w'\n' -X GET 'https://localhost/resource'
- */
 
 #include "CommandServer.h"
 #include "ServerConfig.h"

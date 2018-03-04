@@ -1,5 +1,3 @@
-
-
 #include "LogonTouchServer.h"
 #include "LogonTouchConfigParser.h"
 #include "ServerConfig.h"
