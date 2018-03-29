@@ -1,0 +1,23 @@
+{
+  "ServerConfig": {
+    "version": "0.1",
+    "HTTPPort": 8080,
+    "HTTPSPort": 7779,
+    "KeysDir": {
+      "path": "secure\\ssl",
+      "ServerKeysDir": {
+        "path": "server",
+        "PrivateStore": "privatestore.pkcs12",
+        "PrivatePass": "privatestore.key",
+        "PublicStore": "publicstore.pkcs12",
+        "PublicPass": "publicstore.key"
+      },
+      "ClientKeysDir": {
+        "path": "client",
+        "PublicStore": "clientstore.pkcs12",
+        "PublicPass": "clientstore.key",
+        "Credentials": "clientcred.cip"
+      }
+    }
+  }
+}
