@@ -1,0 +1,16 @@
+Windows Registry Editor Version 5.00
+
+[HKEY_LOCAL_MACHINE\SOFTWARE\LogonTouch]
+@="C:\\LogonTouch\\"
+"Config"="C:\\LogonTouch\\config.xml"
+
+[HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Authentication\Credential Providers\{E71A8049-6A91-4EDA-A703-1DD68781C379}]
+@="LogonTouchCredProvider"
+
+[HKEY_CLASSES_ROOT\CLSID\{E71A8049-6A91-4eda-A703-1DD68781C379}]
+@="LogonTouchCredProvider"
+
+[HKEY_CLASSES_ROOT\CLSID\{E71A8049-6A91-4eda-A703-1DD68781C379}\InprocServer32]
+@="LogonTouchCredProvider.dll"
+"ThreadingModel"="Apartment"
+
