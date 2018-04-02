@@ -29,7 +29,7 @@ LONG GetStringRegKey(HKEY hKey, const std::wstring &strValueName, std::wstring &
 
 int getLogonTouchRegParam(const string &param, string &path) {
 	HKEY hKey;
-	LONG lRes = RegOpenKeyExW(HKEY_LOCAL_MACHINE, L"SOFTWARE\\LogonTouch", 0, KEY_READ, &hKey);
+	LONG lRes = RegOpenKeyExW(HKEY_LOCAL_MACHINE, L"SOFTWARE\\LazyGravity\\LogonTouchUI", 0, KEY_READ, &hKey);
 	if (lRes != ERROR_SUCCESS) return -1;
 
 	std::wstring str_tmp;
