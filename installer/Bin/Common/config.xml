@@ -1,8 +1,8 @@
 {
   "ServerConfig": {
     "version": "0.1",
-    "HTTPPort": 8080,
-    "HTTPSPort": 7779,
+    "HTTPPort": 55470,
+    "HTTPSPort": 55471,
     "KeysDir": {
       "path": "secure\\ssl",
       "ServerKeysDir": {
