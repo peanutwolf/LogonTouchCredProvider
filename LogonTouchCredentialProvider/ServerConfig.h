@@ -38,8 +38,8 @@ struct KeysDirImpl {
 
 struct ServerConfigImpl {
 	string version = "0.0";
-	uint16_t http_port = 8080;
-	uint16_t https_port = 7779;
+	uint16_t http_port = 55470;
+	uint16_t https_port = 55471;
 	KeysDirImpl m_keys_dir;
 };
 
