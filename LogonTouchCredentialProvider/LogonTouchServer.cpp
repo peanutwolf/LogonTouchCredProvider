@@ -154,6 +154,7 @@ int LongonTouchServer::Set_Auth_Keys_P12(const string &p12_path, const string &p
 	auto bio_mem = shared_ptr<BIO>(BIO_new(BIO_s_mem()), BIO_free);
 
 	if (!PEM_write_bio_X509(bio_mem.get(), sk_X509_pop(p12_holder->ca))) {
+		_logger->error("[Set_Auth_Keys_P12] Failed to convert PEM cert to X509 format");
 		return -1;
 	}
 
@@ -166,7 +167,7 @@ int LongonTouchServer::Set_Auth_Keys_P12(const string &p12_path, const string &p
 	return 1;
 }
 
-void credential_provider_handler(const shared_ptr< Session > session, const function< int(const string &key, const string &iv) >& on_key_received) {
+void LongonTouchServer::credential_provider_handler(const shared_ptr< Session > session, const function< int(const string &key, const string &iv) >& on_key_received) {
 	const auto request = session->get_request();
 
 	if (request->has_header("Content-Length")){
@@ -180,6 +181,9 @@ void credential_provider_handler(const shared_ptr< Session > session, const func
 			auto key = parseCredentialValue(req_body, "key");
 			auto iv = parseCredentialValue(req_body, "iv");
 
+			if (key.empty()) _logger->error("Failed to parse credential value=[key]");
+			if (iv.empty()) _logger->error("Failed to parse credential value=[iv]");
+
 			if (on_key_received(key, iv) == 0) {
 				session->close(OK);
 			}else {
@@ -188,13 +192,16 @@ void credential_provider_handler(const shared_ptr< Session > session, const func
 			
 		});
 	}else{
+		_logger->error("Received request without content-length header");
 		session->close(BAD_REQUEST);
 	}	
 }
 
 void LongonTouchServer::Server_Assemble(const function< int(const string &key, const string &iv) >& on_key_received) {
 	using namespace std::placeholders;
-	const function< void(const shared_ptr< Session >) > handler = std::bind(credential_provider_handler, _1, on_key_received);
+	const function< void(const shared_ptr< Session >) > handler 
+		= std::bind(&LongonTouchServer::credential_provider_handler, this,  _1, on_key_received);
+
 	auto resource = make_shared< Resource >();
 	resource->set_path("external/credential/provide");
 	resource->add_rule(make_shared<SecureRedirectRule>(m_config->getHTTPPort(), m_config->getHTTPSPort()));
@@ -226,12 +233,19 @@ shared_ptr<p12_holder_t> LongonTouchServer::Load_Keys_P12(const string &p12_path
 	auto holder = make_shared<p12_holder_t>();
 
 	auto p12_bio = shared_ptr<BIO>(BIO_new_file(p12_path.c_str(), "r"), BIO_free);
-	if (p12_bio == nullptr) nullptr;
+	if (p12_bio == nullptr) { 
+		_logger->error("Failed to load p12 file path=[{}]", p12_path);
+		return nullptr;
+	}
 
 	auto p12_cert = shared_ptr<PKCS12>(d2i_PKCS12_bio(p12_bio.get(), NULL), PKCS12_free);
-	if (p12_cert == nullptr) nullptr;
+	if (p12_cert == nullptr) {
+		_logger->error("Failed to read p12 cert path=[{}]", p12_path);
+		return nullptr;
+	}
 
-	PKCS12_parse(p12_cert.get(), p12_pass.c_str(), &holder->pkey, &holder->cert, &holder->ca);
+	int res = PKCS12_parse(p12_cert.get(), p12_pass.c_str(), &holder->pkey, &holder->cert, &holder->ca);
+	_logger->debug("PKCS12 certificates parse result=[{}]", res);
 
 	return holder;
 }

@@ -17,6 +17,8 @@ LogonTouchCredential::LogonTouchCredential():
     ZeroMemory(_rgFieldStatePairs, sizeof(_rgFieldStatePairs));
     ZeroMemory(_rgFieldStrings, sizeof(_rgFieldStrings));
 	ZeroMemory(_rgCredentialStrings, sizeof(_rgCredentialStrings));
+
+	_logger = spdlog::get("logger");
 }
 
 LogonTouchCredential::~LogonTouchCredential()
@@ -97,6 +99,7 @@ int LogonTouchCredential::ClearCredentialString(DWORD dwFieldID) {
 
 void LogonTouchCredential::SetCredentialsArmed(bool armed) {
 	_pCredentialsArmedForRequest = armed;
+	_logger->debug("Settings credentials armed state=[{}]", armed);
 }
 
 bool LogonTouchCredential::GetCredentialArmed() {
@@ -342,6 +345,8 @@ HRESULT LogonTouchCredential::ReportResult(
 {
     *ppwszOptionalStatusText = NULL;
     *pcpsiOptionalStatusIcon = CPSI_NONE;
+
+	_logger->info("[ReportResult] received ntsStatus=[{}], ntsSubstatus=[{}]", ntsStatus, ntsSubstatus);
 
     DWORD dwStatusInfo = (DWORD)-1;
     for (DWORD i = 0; i < ARRAYSIZE(s_rgLogonStatusInfo); i++){

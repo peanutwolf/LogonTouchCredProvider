@@ -27,6 +27,9 @@ private:
 	
 	shared_ptr<p12_holder_t> Load_Keys_P12(const string &p12_path, const string &p12_pass);
 
+	void credential_provider_handler(
+		const shared_ptr< Session > session, const function< int(const string &key, const string &iv) >& on_key_received);
+
 	Settings      m_settings;
 	SSLSettings   m_ssl_settings;
 	restbed::Service       m_service;

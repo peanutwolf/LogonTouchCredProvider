@@ -81,6 +81,7 @@ int CommandServer::Initialize(LogonTouchProvider *pProvider) {
 		aes_decrypt((unsigned char *)decodedKey.c_str(), iv_buf, decodedCreds, decipheredBuf);
 
 		auto credential = m_config_parser->parseClientCredentialConfig(decipheredBuf);
+		if (credential == nullptr) _logger->error("Failed to parse deciphered client credentials");
 		
 		return m_provider->OnCredentialsReceived(credential);
 	});

@@ -186,7 +186,7 @@ HRESULT LogonTouchProvider_CreateInstance(REFIID riid, void** ppv){
 	string install_path;
 
 	logontouch::getLogonTouchRegParam("", install_path);
-	auto logger = spdlog::combined_logger_st_safe("logger", install_path+"credprov.log", 1024 * 1024 * 5, 3);
+	auto logger = spdlog::combined_logger_st_safe("logger", install_path+"credprov.log", 1024 * 1024 * 1, 3);
 	logger->flush_on(spdlog::level::trace);
 	logger->set_level(spdlog::level::trace);
 	spdlog::register_logger(logger);

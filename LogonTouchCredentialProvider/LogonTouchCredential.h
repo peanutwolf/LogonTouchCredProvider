@@ -7,6 +7,7 @@
 #include "helpers.h"
 #include "dll.h"
 #include "resource.h"
+#include "LogonTouchUtil.h"
 
 class LogonTouchCredential : public ICredentialProviderCredential
 {
@@ -120,4 +121,6 @@ class LogonTouchCredential : public ICredentialProviderCredential
 	PWSTR								 _rgCredentialStrings[CI_NUM_FIELDS];
     ICredentialProviderCredentialEvents* _pCredProvCredentialEvents;    
 	bool								 _pCredentialsArmedForRequest;
+
+	std::shared_ptr<spdlog::logger> _logger = nullptr;
 };
