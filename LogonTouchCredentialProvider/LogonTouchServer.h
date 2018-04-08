@@ -1,6 +1,7 @@
 #pragma once
 
 #include "ServerConfig.h"
+#include "LogonTouchUtil.h"
 #include <restbed>
 #include <memory>
 
@@ -31,4 +32,5 @@ private:
 	restbed::Service       m_service;
 
 	const shared_ptr<ServerConfig> m_config = nullptr;
+	shared_ptr<spdlog::logger> _logger = nullptr;
 };

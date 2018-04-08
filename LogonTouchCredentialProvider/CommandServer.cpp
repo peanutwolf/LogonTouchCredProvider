@@ -10,46 +10,15 @@
 #include <Winreg.h>
 #include <thread>
 
+#include <openssl/conf.h>
+#include <openssl/evp.h>
+#include <openssl/err.h>
+
 using namespace std;
-
-
-LONG GetStringRegKey(HKEY hKey, const std::wstring &strValueName, std::wstring &strValue, const std::wstring &strDefaultValue)
-{
-	strValue = strDefaultValue;
-	WCHAR szBuffer[512];
-	DWORD dwBufferSize = sizeof(szBuffer);
-	ULONG nError;
-	nError = RegQueryValueExW(hKey, strValueName.c_str(), 0, NULL, (LPBYTE)szBuffer, &dwBufferSize);
-	if (ERROR_SUCCESS == nError)
-	{
-		strValue = szBuffer;
-	}
-	return nError;
-}
-
-int getLogonTouchRegParam(const string &param, string &path) {
-	HKEY hKey;
-	LONG lRes = RegOpenKeyExW(HKEY_LOCAL_MACHINE, L"SOFTWARE\\LazyGravity\\LogonTouchUI", 0, KEY_READ, &hKey);
-	if (lRes != ERROR_SUCCESS) return -1;
-
-	std::wstring str_tmp;
-	std::wstring param_tmp(param.begin(), param.end());
-	GetStringRegKey(hKey, param_tmp, str_tmp, L"");
-	path.assign(str_tmp.begin(), str_tmp.end());
-
-	RegCloseKey(hKey);
-
-	return 0;
-}
 
 void server_thread(LongonTouchServer *server) {
 	server->Server_Start();
 }
-
-
-#include <openssl/conf.h>
-#include <openssl/evp.h>
-#include <openssl/err.h>
 
 //typedef unsigned char byte;
 typedef std::basic_string<char, std::char_traits<char>, allocator<char> > secure_string;
@@ -76,20 +45,28 @@ void aes_decrypt(const unsigned char key[128], const unsigned char iv[128], cons
 	ptext.assign((char *)plaintext.get(), plaintext_len);
 }
 
+CommandServer::CommandServer() {
+	_logger = spdlog::get("logger");
+}
+
 int CommandServer::Initialize(LogonTouchProvider *pProvider) {
 	string path;
 	string install_path;
 
 	m_provider = pProvider;
 
-	getLogonTouchRegParam("Config", path);
-	getLogonTouchRegParam("", install_path);
+	logontouch::getLogonTouchRegParam("Config", path);
+	logontouch::getLogonTouchRegParam("", install_path);
 
+	_logger->debug("Try parse LogonTouch config for path=[{}]", path.c_str());
+	
 	m_config_parser = make_shared<LogonTouchConfigParser>(path);
 
 	auto serverCfgImpl = m_config_parser->parseServerConfig();
-	if (serverCfgImpl == nullptr)
+	if (serverCfgImpl == nullptr) {
+		_logger->error("Failed to parse LogonTouch server config");
 		return -1;
+	}
 	auto serverConfig = make_shared<ServerConfig>(install_path, serverCfgImpl);
 	m_server = make_shared<LongonTouchServer>(serverConfig);
 
@@ -108,15 +85,24 @@ int CommandServer::Initialize(LogonTouchProvider *pProvider) {
 		return m_provider->OnCredentialsReceived(credential);
 	});
 
+	_logger->info("CommandServer initialized successfully");
+
 	return 0;
 }
 
 void CommandServer::ServerStart() {
 	if (m_server_thr == nullptr) {
 		m_server_thr = make_shared<thread>([this] {
+			auto logger = spdlog::get("logger");
 			try { m_server->Server_Start(); }
+			catch (const std::runtime_error& re){
+				logger->error("Runtime error occurred while starting LogonTouchServer {}", re.what());
+			}
+			catch (const std::exception& ex){
+				logger->error("Error occurred while starting LogonTouchServer {}", ex.what());
+			}
 			catch (...) {
-				fprintf(stderr, "Failed to start LogonTouchServer");
+				logger->error("Unknown exception caught while starting LogonTouchServer");
 			}
 		});
 		m_server_thr->detach();
@@ -128,36 +114,38 @@ void CommandServer::ServerStop() {
 	m_server_thr = nullptr;
 }
 
-int main( const int, const char** )
-{
-	string path;
-	string install_path;
-	
-	getLogonTouchRegParam("Config", path);
-	getLogonTouchRegParam("", install_path);
+//main method for exe file 
 
-	LogonTouchConfigParser configParser(path);
-
-	auto serverCfg = configParser.parseServerConfig();
-	auto serverConfig = make_shared<ServerConfig>(install_path, serverCfg);
-	auto srv = make_shared<LongonTouchServer>(serverConfig);
-
-	srv->Server_Assemble([=, &configParser] (const string &key, const string &iv){
-		string decipheredBuf;
-		string ciphered_credentials = serverConfig->getClientCredentials();
-		auto decodedKey   = base64_decode(key);
-		auto decodedIV = base64_decode(iv);
-		auto decodedCreds = base64_decode(ciphered_credentials);
-
-		unsigned char *iv_buf = (unsigned char *)decodedIV.c_str();
-		aes_decrypt((unsigned char *)decodedKey.c_str(), iv_buf, decodedCreds, decipheredBuf);
-
-		auto credential = configParser.parseClientCredentialConfig(decipheredBuf);
-		return 0;
-	});
-
-	srv->Server_Start();
-
-
-    return EXIT_SUCCESS;
-}
+//int main( const int, const char** )
+//{
+//	string path;
+//	string install_path;
+//	
+//	logontouch::getLogonTouchRegParam("Config", path);
+//	logontouch::getLogonTouchRegParam("", install_path);
+//
+//	LogonTouchConfigParser configParser(path);
+//
+//	auto serverCfg = configParser.parseServerConfig();
+//	auto serverConfig = make_shared<ServerConfig>(install_path, serverCfg);
+//	auto srv = make_shared<LongonTouchServer>(serverConfig);
+//
+//	srv->Server_Assemble([=, &configParser] (const string &key, const string &iv){
+//		string decipheredBuf;
+//		string ciphered_credentials = serverConfig->getClientCredentials();
+//		auto decodedKey   = base64_decode(key);
+//		auto decodedIV = base64_decode(iv);
+//		auto decodedCreds = base64_decode(ciphered_credentials);
+//
+//		unsigned char *iv_buf = (unsigned char *)decodedIV.c_str();
+//		aes_decrypt((unsigned char *)decodedKey.c_str(), iv_buf, decodedCreds, decipheredBuf);
+//
+//		auto credential = configParser.parseClientCredentialConfig(decipheredBuf);
+//		return 0;
+//	});
+//
+//	srv->Server_Start();
+//
+//
+//    return EXIT_SUCCESS;
+//}

@@ -4,11 +4,13 @@
 #include "CommandServer.h"
 #include "guid.h"
 
-
 LogonTouchProvider::LogonTouchProvider():
     _cRef(1)
 {
     DllAddRef();
+
+	_logger = spdlog::get("logger");
+	_logger->debug("Create instance of LogonTouchProvider");
 
     _pcpe = NULL;
 	_pCommandServer = NULL;
@@ -28,6 +30,8 @@ LogonTouchProvider::~LogonTouchProvider()
 		_pCommandServer = NULL;
 	}
 
+	_logger->debug("Release instance of LogonTouchProvider");
+
     DllRelease();
 }
 
@@ -35,6 +39,8 @@ long LogonTouchProvider::OnCredentialsReceived(shared_ptr<ClientCredentialImpl> 
 {
 	if (_pcpe == NULL || credential == nullptr)
 		return -1;
+
+	_logger->info("OnCredentialsReceived received credentials");
 
 	wstring ldomain(credential->domain.begin(), credential->domain.end());
 	wstring luser(credential->username.begin(), credential->username.end());
@@ -69,15 +75,27 @@ HRESULT LogonTouchProvider::SetUsageScenario(CREDENTIAL_PROVIDER_USAGE_SCENARIO 
 		}
 		try {
 			if (_pCommandServer->Initialize(this) != 0) {
+				_logger->error("Failed to initialize CommandServer");
 				hr = E_FAIL;
 				break;
 			}
 			_pCommandServer->ServerStart();
+		}catch (const std::runtime_error& re) {
+			_logger->error("Runtime error occurred while starting CommandServer {}", re.what());
+			hr = E_FAIL;
+			break;
+		}catch (const std::exception& ex) {
+			_logger->error("Error occurred while starting CommandServer {}", ex.what());
+			hr = E_FAIL;
+			break;
 		}catch (...) {
+			_logger->error("Exception caught when try CommandServer start");
 			hr = E_FAIL;
 			break;
 		}
+
 		if (_pCredential->Initialize(_cpus, s_rgTouchProvFieldDescriptors, s_rgTouchStatePairs) < 0) {
+			_logger->error("Failed to initialize LogonTouchCredential");
 			hr = E_FAIL;
 			break;
 		}
@@ -94,6 +112,7 @@ HRESULT LogonTouchProvider::SetUsageScenario(CREDENTIAL_PROVIDER_USAGE_SCENARIO 
         break;
     }
 
+	_logger->info("SetUsageScenario for scenario=[{}] res=[{}]", cpus, hr);
     return hr;
 }
 
@@ -137,7 +156,6 @@ HRESULT LogonTouchProvider::GetFieldDescriptorAt(
 		hr = E_INVALIDARG;
 	}
 
-
     return hr;
 }
 
@@ -145,6 +163,9 @@ HRESULT LogonTouchProvider::GetCredentialCount(DWORD* pdwCount, DWORD* pdwDefaul
     *pdwCount = _pCredential->GetCredentialArmed() == true ? 1 : 0;
     *pdwDefault = 0;
     *pbAutoLogonWithDefault = _pCredential->GetCredentialArmed();
+
+	_logger->debug("GetCredentialCount pdwCount=[{}], pbAutoLogonWithDefault=[{}]", *pdwCount, *pbAutoLogonWithDefault);
+
     return S_OK;
 }
 
@@ -162,6 +183,16 @@ HRESULT LogonTouchProvider::GetCredentialAt(DWORD dwIndex, ICredentialProviderCr
 
 HRESULT LogonTouchProvider_CreateInstance(REFIID riid, void** ppv){
     HRESULT hr;
+	string install_path;
+
+	logontouch::getLogonTouchRegParam("", install_path);
+	auto logger = spdlog::combined_logger_st_safe("logger", install_path+"credprov.log", 1024 * 1024 * 5, 3);
+	logger->flush_on(spdlog::level::trace);
+	logger->set_level(spdlog::level::trace);
+	spdlog::register_logger(logger);
+
+	logger->info("/----------------------------------------------------------/");
+
     LogonTouchProvider* pProvider = new LogonTouchProvider();
 
     if (pProvider){

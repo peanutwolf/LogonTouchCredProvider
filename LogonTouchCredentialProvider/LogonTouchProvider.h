@@ -8,6 +8,7 @@
 #include "CommandServer.h"
 #include "ServerConfig.h"
 #include "LogonTouchCredential.h"
+#include "LogonTouchUtil.h"
 #include "helpers.h"
 
 // Forward references for classes used here.
@@ -85,4 +86,6 @@ private:
     UINT_PTR                    _upAdviseContext;       // Used to tell our owner who we are when asking to 
                                                         // re-enumerate credentials.
     CREDENTIAL_PROVIDER_USAGE_SCENARIO      _cpus;
+
+	std::shared_ptr<spdlog::logger> _logger;
 };

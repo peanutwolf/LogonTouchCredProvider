@@ -71,6 +71,11 @@ private:
 class CustomLogger : public Logger
 {
 public:
+
+	CustomLogger() {
+		_logger = spdlog::get("logger");
+	}
+
 	void stop(void)
 	{
 		return;
@@ -85,9 +90,11 @@ public:
 	{
 		va_list arguments;
 		va_start(arguments, format);
+		char buf[10000] = { 0 };
 
-		vfprintf(stderr, format, arguments);
-		fprintf(stderr, "\n");
+		vsnprintf(buf, sizeof buf, format, arguments);
+
+		_logger->debug("{}", buf);
 
 		va_end(arguments);
 	}
@@ -102,6 +109,9 @@ public:
 			va_end(arguments);
 		}
 	}
+
+private:
+	shared_ptr<spdlog::logger> _logger = nullptr;
 };
 
 
@@ -117,7 +127,9 @@ typedef struct p12_holder {
 	STACK_OF(X509) *ca = NULL;
 }p12_holder_t;
 
-LongonTouchServer::LongonTouchServer(shared_ptr<ServerConfig> config) : m_config(config) {}
+LongonTouchServer::LongonTouchServer(shared_ptr<ServerConfig> config) : m_config(config) {
+	_logger = spdlog::get("logger");
+}
 
 int LongonTouchServer::Set_Server_Keys_P12(const string &p12_path, const string &p12_pass) {
 	auto p12_holder = Load_Keys_P12(p12_path, p12_pass);
