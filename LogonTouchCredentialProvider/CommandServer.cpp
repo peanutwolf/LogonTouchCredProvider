@@ -58,6 +58,11 @@ int CommandServer::Initialize(LogonTouchProvider *pProvider) {
 	logontouch::getLogonTouchRegParam("Config", path);
 	logontouch::getLogonTouchRegParam("", install_path);
 
+	if (path.empty()) {
+		_logger->error("Config path not found");
+		return -1;
+	}
+
 	_logger->debug("Try parse LogonTouch config for path=[{}]", path.c_str());
 	
 	m_config_parser = make_shared<LogonTouchConfigParser>(path);
