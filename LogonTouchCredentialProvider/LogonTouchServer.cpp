@@ -234,14 +234,16 @@ shared_ptr<p12_holder_t> LongonTouchServer::Load_Keys_P12(const string &p12_path
 
 	auto p12_bio = shared_ptr<BIO>(BIO_new_file(p12_path.c_str(), "r"), BIO_free);
 	if (p12_bio == nullptr) { 
-		_logger->error("Failed to load p12 file path=[{}]", p12_path);
-		return nullptr;
+		string message("Failed to load p12 file path=");
+		message.append(p12_path);
+		throw std::runtime_error(message);
 	}
 
 	auto p12_cert = shared_ptr<PKCS12>(d2i_PKCS12_bio(p12_bio.get(), NULL), PKCS12_free);
 	if (p12_cert == nullptr) {
-		_logger->error("Failed to read p12 cert path=[{}]", p12_path);
-		return nullptr;
+		string message("Failed to read p12 cert path=");
+		message.append(p12_path);
+		throw std::runtime_error(message);
 	}
 
 	int res = PKCS12_parse(p12_cert.get(), p12_pass.c_str(), &holder->pkey, &holder->cert, &holder->ca);

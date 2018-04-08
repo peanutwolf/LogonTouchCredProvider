@@ -120,7 +120,7 @@ class LogonTouchCredential : public ICredentialProviderCredential
                                                                                         
 	PWSTR								 _rgCredentialStrings[CI_NUM_FIELDS];
     ICredentialProviderCredentialEvents* _pCredProvCredentialEvents;    
-	bool								 _pCredentialsArmedForRequest;
+	bool								 _pCredentialsArmedForRequest = false;
 
 	std::shared_ptr<spdlog::logger> _logger = nullptr;
 };

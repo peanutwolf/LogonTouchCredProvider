@@ -162,7 +162,7 @@ HRESULT LogonTouchProvider::GetFieldDescriptorAt(
 HRESULT LogonTouchProvider::GetCredentialCount(DWORD* pdwCount, DWORD* pdwDefault, BOOL* pbAutoLogonWithDefault){
     *pdwCount = _pCredential->GetCredentialArmed() == true ? 1 : 0;
     *pdwDefault = 0;
-    *pbAutoLogonWithDefault = _pCredential->GetCredentialArmed();
+    *pbAutoLogonWithDefault = _pCredential->GetCredentialArmed() == true ? 1 : 0;
 
 	_logger->debug("GetCredentialCount pdwCount=[{}], pbAutoLogonWithDefault=[{}]", *pdwCount, *pbAutoLogonWithDefault);
 

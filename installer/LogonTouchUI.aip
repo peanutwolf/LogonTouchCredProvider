@@ -369,8 +369,7 @@
     <ROW Action="AI_XmlUninstall" Condition="(REMOVE)" Sequence="3102"/>
     <ROW Action="AI_DATA_SETTER_2" Condition="(REMOVE)" Sequence="3101"/>
     <ROW Action="AI_AiRemoveFilesRollback" Sequence="3099"/>
-    <ROW Action="RemoveFiles" Condition="1" Sequence="3602" SeqType="0" MsiKey="RemoveFiles"/>
-    <ROW Action="AI_AiRemoveFilesImmediate" Sequence="3601"/>
+    <ROW Action="RemoveFiles" Condition="1" Sequence="3603" SeqType="0" MsiKey="RemoveFiles"/>
     <ROW Action="AI_BACKUP_AI_SETUPEXEPATH" Sequence="99" Builds="DefaultBuild"/>
     <ROW Action="AI_RESTORE_AI_SETUPEXEPATH" Condition="AI_SETUPEXEPATH_ORIGINAL" Sequence="101" Builds="DefaultBuild"/>
     <ROW Action="AI_DeleteCadLzma" Condition="SETUPEXEDIR=&quot;&quot; AND Installed AND (REMOVE&lt;&gt;&quot;ALL&quot;) AND (AI_INSTALL_MODE&lt;&gt;&quot;Remove&quot;) AND (NOT PATCH)" Sequence="199" Builds="DefaultBuild"/>
@@ -383,6 +382,7 @@
     <ROW Action="AI_ExtractFiles" Sequence="3998" Builds="DefaultBuild"/>
     <ROW Action="AI_DATA_SETTER" Sequence="3997"/>
     <ROW Action="AI_EstimateExtractFiles" Sequence="3999" Builds="DefaultBuild"/>
+    <ROW Action="AI_AiRemoveFilesImmediate" Sequence="3602"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.MsiInstallUISequenceComponent">
     <ROW Action="AI_RESTORE_LOCATION" Condition="APPDIR=&quot;&quot;" Sequence="745"/>
@@ -418,7 +418,7 @@
     <ROW Registry="HelpTelephone" Root="-1" Key="Software\Microsoft\Windows\CurrentVersion\Uninstall\[ProductName] [ProductVersion]" Name="HelpTelephone" Value="[ARPHELPTELEPHONE]" Component_="AI_CustomARPName"/>
     <ROW Registry="InstallLocation" Root="-1" Key="Software\Microsoft\Windows\CurrentVersion\Uninstall\[ProductName] [ProductVersion]" Name="InstallLocation" Value="[APPDIR]" Component_="AI_CustomARPName"/>
     <ROW Registry="Publisher" Root="-1" Key="Software\Microsoft\Windows\CurrentVersion\Uninstall\[ProductName] [ProductVersion]" Name="Publisher" Value="[Manufacturer]" Component_="AI_CustomARPName"/>
-    <ROW Registry="ThreadingModel" Root="0" Key="CLSID\[ProductCode]\InpocServer32" Name="ThreadingModel" Value="Apartment" Component_="ThreadingModel"/>
+    <ROW Registry="ThreadingModel" Root="0" Key="CLSID\[ProductCode]\InprocServer32" Name="ThreadingModel" Value="Apartment" Component_="ThreadingModel"/>
     <ROW Registry="URLInfoAbout" Root="-1" Key="Software\Microsoft\Windows\CurrentVersion\Uninstall\[ProductName] [ProductVersion]" Name="URLInfoAbout" Value="[ARPURLINFOABOUT]" Component_="AI_CustomARPName"/>
     <ROW Registry="URLUpdateInfo" Root="-1" Key="Software\Microsoft\Windows\CurrentVersion\Uninstall\[ProductName] [ProductVersion]" Name="URLUpdateInfo" Value="[ARPURLUPDATEINFO]" Component_="AI_CustomARPName"/>
     <ROW Registry="UninstallPath" Root="-1" Key="Software\Microsoft\Windows\CurrentVersion\Uninstall\[ProductName] [ProductVersion]" Name="UninstallPath" Value="[AI_UNINSTALLER] /x [ProductCode]" Component_="AI_CustomARPName"/>
@@ -429,7 +429,7 @@
     <ROW Registry="_" Root="2" Key="SOFTWARE\Microsoft\Windows\CurrentVersion\Authentication\Credential Providers\[ProductCode]" Value="LogonTouchCredProvider" Component_="_"/>
     <ROW Registry="__1" Root="-1" Key="Software\[Manufacturer]\[ProductName]" Value="[ProductName_Dir]" Component_="__1"/>
     <ROW Registry="__2" Root="0" Key="CLSID\[ProductCode]" Value="LogonTouchCredProvider" Component_="__2"/>
-    <ROW Registry="__3" Root="0" Key="CLSID\[ProductCode]\InpocServer32" Value="LogonTouchCredProvider.dll" Component_="__3"/>
+    <ROW Registry="__3" Root="0" Key="CLSID\[ProductCode]\InprocServer32" Value="LogonTouchCredProvider.dll" Component_="__3"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.MsiRemoveFileComponent">
     <ROW FileKey="LogonTouchCredProvider.dll" Component_="LogonTouchUI.exe" FileName="LogonTouchCredProvider.dll" DirProperty="System64Folder" InstallMode="1"/>
