@@ -6,8 +6,6 @@
 #include <memory>
 #include <cstdlib>
 #include <asio\buffer.hpp>
-#include <Windows.h>
-#include <Winreg.h>
 #include <thread>
 
 #include <openssl/conf.h>

@@ -1,8 +1,6 @@
 
 #include "LogonTouchConfigParser.h"
 
-
-
 #include <memory>
 #include <cstdlib>
 #include <fstream>

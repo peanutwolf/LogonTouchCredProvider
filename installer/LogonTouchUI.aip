@@ -65,38 +65,20 @@
     <ROW Component="__2" ComponentId="{B32A3EFB-8FEB-4629-B942-8FDD0EEB7A96}" Directory_="APPDIR" Attributes="4" KeyPath="__2"/>
     <ROW Component="__3" ComponentId="{7502F775-B79C-436F-9F4C-F907CD369749}" Directory_="APPDIR" Attributes="260" KeyPath="__3"/>
     <ROW Component="config.xml" ComponentId="{8734E500-B889-4C1A-8BCF-7354A9CABF28}" Directory_="ProductName_Dir" Attributes="256" KeyPath="config.xml" Type="0"/>
-    <ROW Component="libeay32.dll" ComponentId="{BBE0C29D-D33B-4E75-9379-597A052C4600}" Directory_="System64Folder" Attributes="256" Condition="VersionNT64" KeyPath="libeay32.dll"/>
-    <ROW Component="libeay32.dll_1" ComponentId="{6FF748B4-68EC-49FC-B9AD-20FCC05D71B5}" Directory_="SystemFolder" Attributes="0" Condition="NOT VersionNT64" KeyPath="libeay32.dll_1"/>
     <ROW Component="regid.201804.com.githubpeanutwolf" ComponentId="{C8BE42B4-D495-408A-8EBE-FF2861D2DD2A}" Directory_="regid.201804.com.githubpeanutwolf_Dir" Attributes="256"/>
-    <ROW Component="ssleay32.dll" ComponentId="{239D2D19-F7E4-400A-8E92-69086D4F413B}" Directory_="System64Folder" Attributes="256" Condition="VersionNT64" KeyPath="ssleay32.dll"/>
-    <ROW Component="ssleay32.dll_1" ComponentId="{6B077372-CB7F-4B0D-9325-F29BAF5B0EE3}" Directory_="SystemFolder" Attributes="0" Condition="NOT VersionNT64" KeyPath="ssleay32.dll_1"/>
-    <ROW Component="x64" ComponentId="{2FE206C8-4B1D-4CD5-B4A2-4A7AD7E5FD3E}" Directory_="System64Folder" Attributes="0" Condition="VersionNT64" KeyPath="x64" Type="0"/>
-    <ROW Component="x86" ComponentId="{B2C2F7D6-1AF4-4E38-8D43-C09DB6681108}" Directory_="SystemFolder" Attributes="0" Condition="NOT VersionNT64" KeyPath="x86" Type="0"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.MsiFeatsComponent">
-    <ROW Feature="AI32BitFiles" Title="32-bit" Description="32-bit Executables and Libraries" Display="5" Level="1" Directory_="APPDIR" Attributes="0" Components="LogonTouchCredProvider.dll_1 libeay32.dll_1 ssleay32.dll_1 x86"/>
-    <ROW Feature="AI64BitFiles" Title="64-bit" Description="64-bit Executables and Libraries" Display="3" Level="1" Directory_="APPDIR" Attributes="0" Components="LogonTouchCredProvider.dll libeay32.dll ssleay32.dll x64"/>
+    <ROW Feature="AI32BitFiles" Title="32-bit" Description="32-bit Executables and Libraries" Display="5" Level="1" Directory_="APPDIR" Attributes="0" Components="LogonTouchCredProvider.dll_1"/>
+    <ROW Feature="AI64BitFiles" Title="64-bit" Description="64-bit Executables and Libraries" Display="3" Level="1" Directory_="APPDIR" Attributes="0" Components="LogonTouchCredProvider.dll"/>
     <ROW Feature="MainFeature" Title="MainFeature" Description="Description" Display="1" Level="1" Directory_="APPDIR" Attributes="0" Components="AI_CustomARPName AI_DisableModify AI_ExePath Config LogonTouchUI.exe LogonTouchUI0.1.jar ProductInformation ProductName SHORTCUTDIR ThreadingModel _ __1 __2 __3 config.xml regid.201804.com.githubpeanutwolf"/>
     <ATTRIBUTE name="CurrentFeature" value="MainFeature"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.MsiFilesComponent">
-    <ROW File="LogonTouchCredProvider.dll" Component_="LogonTouchCredProvider.dll" FileName="LOGONT~1.DLL|LogonTouchCredProvider.dll" Attributes="0" SourcePath="Bin\x64\LogonTouchCredProvider.dll" SelfReg="false" NextFile="ssleay32.dll"/>
-    <ROW File="LogonTouchCredProvider.dll_1" Component_="LogonTouchCredProvider.dll_1" FileName="LOGONT~1.DLL|LogonTouchCredProvider.dll" Attributes="0" SourcePath="Bin\x86\LogonTouchCredProvider.dll" SelfReg="false" NextFile="ssleay32.dll_1"/>
+    <ROW File="LogonTouchCredProvider.dll" Component_="LogonTouchCredProvider.dll" FileName="LOGONT~1.DLL|LogonTouchCredProvider.dll" Attributes="0" SourcePath="Bin\x64\LogonTouchCredProvider.dll" SelfReg="false" NextFile="LogonTouchCredProvider.dll_1"/>
+    <ROW File="LogonTouchCredProvider.dll_1" Component_="LogonTouchCredProvider.dll_1" FileName="LOGONT~1.DLL|LogonTouchCredProvider.dll" Attributes="0" SourcePath="Bin\x86\LogonTouchCredProvider.dll" SelfReg="false" NextFile="LogonTouchUI.exe"/>
     <ROW File="LogonTouchUI.exe" Component_="LogonTouchUI.exe" FileName="LOGONT~1.EXE|LogonTouchUI.exe" Attributes="0" SourcePath="Bin\Common\LogonTouchUI.exe" SelfReg="false" NextFile="LogonTouchUI0.1.jar" DigSign="true"/>
     <ROW File="LogonTouchUI0.1.jar" Component_="LogonTouchUI0.1.jar" FileName="LOGONT~1.JAR|LogonTouchUI-0.1.jar" Attributes="0" SourcePath="Bin\Common\LogonTouchUI-0.1.jar" SelfReg="false" NextFile="config.xml"/>
-    <ROW File="config.xml" Component_="config.xml" FileName="config.xml" Attributes="0" SourcePath="Bin\Common\config.xml" SelfReg="false" NextFile="x64"/>
-    <ROW File="libeay32.dll" Component_="libeay32.dll" FileName="libeay32.dll" Attributes="0" SourcePath="Bin\x64\libeay32.dll" SelfReg="false" NextFile="LogonTouchCredProvider.dll"/>
-    <ROW File="libeay32.dll_1" Component_="libeay32.dll_1" FileName="libeay32.dll" Attributes="0" SourcePath="Bin\x86\libeay32.dll" SelfReg="false" NextFile="LogonTouchCredProvider.dll_1"/>
-    <ROW File="ssleay32.dll" Component_="ssleay32.dll" FileName="ssleay32.dll" Attributes="0" SourcePath="Bin\x64\ssleay32.dll" SelfReg="false" NextFile="libeay32.dll_1"/>
-    <ROW File="ssleay32.dll_1" Component_="ssleay32.dll_1" FileName="ssleay32.dll" Attributes="0" SourcePath="Bin\x86\ssleay32.dll" SelfReg="false" NextFile="LogonTouchUI.exe"/>
-    <ROW File="x64" Component_="x64" FileName="x64" Attributes="0" SourcePath="Bin\x64\x64" SelfReg="false" NextFile="x86"/>
-    <ROW File="x86" Component_="x86" FileName="x86" Attributes="0" SourcePath="Bin\x86\x86" SelfReg="false"/>
-  </COMPONENT>
-  <COMPONENT cid="caphyon.advinst.msicomp.AiPersistentDataComponent">
-    <ROW PersistentRow="libeay32.dll_1" Type="0" Condition="1"/>
-    <ROW PersistentRow="ssleay32.dll_1" Type="0" Condition="1"/>
-    <ROW PersistentRow="libeay32.dll" Type="0" Condition="1"/>
-    <ROW PersistentRow="ssleay32.dll" Type="0" Condition="1"/>
+    <ROW File="config.xml" Component_="config.xml" FileName="config.xml" Attributes="0" SourcePath="Bin\Common\config.xml" SelfReg="false"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.AiRemoveFileComponent">
     <ROW RemoveFile="_" Condition="(Installed AND ( REMOVE = &quot;ALL&quot; OR AI_INSTALL_MODE = &quot;Remove&quot; ))" Options="3"/>
@@ -131,15 +113,11 @@
     <ROW Fragment="VerifyRepairDlg.aip" Path="&lt;AI_THEMES&gt;surface\fragments\VerifyRepairDlg.aip"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.MsiActionTextComponent">
-    <ROW Action="AI_AiBackupImmediate" Description="Preparing backup operation" DescriptionLocId="ActionText.Description.AI_AiBackupImmediate" Template="Path: [1]" TemplateLocId="ActionText.Template.AI_AiBackupImmediate"/>
-    <ROW Action="AI_AiBackupRollback" Description="Rollback backup" DescriptionLocId="ActionText.Description.AI_AiBackupRollback" Template="Path: [1]" TemplateLocId="ActionText.Template.AI_AiBackupRollback"/>
     <ROW Action="AI_AiRemoveFilesCommit" Description="Executing file removal operations" DescriptionLocId="ActionText.Description.AI_AiRemoveFilesCommit" Template="Executing file removal: [1]" TemplateLocId="ActionText.Template.AI_AiRemoveFilesCommit"/>
     <ROW Action="AI_AiRemoveFilesDeferred_Permanent" Description="Preparing files for removal" DescriptionLocId="ActionText.Description.AI_AiRemoveFilesDeferred_Permanent" Template="Preparing file: [1]" TemplateLocId="ActionText.Template.AI_AiRemoveFilesDeferred_Permanent"/>
     <ROW Action="AI_AiRemoveFilesDeferred_Undoable" Description="Preparing files for removal" DescriptionLocId="ActionText.Description.AI_AiRemoveFilesDeferred_Undoable" Template="Preparing file: [1]" TemplateLocId="ActionText.Template.AI_AiRemoveFilesDeferred_Undoable"/>
     <ROW Action="AI_AiRemoveFilesImmediate" Description="Preparing files for removal" DescriptionLocId="ActionText.Description.AI_AiRemoveFilesImmediate" Template="Preparing file: [1]" TemplateLocId="ActionText.Template.AI_AiRemoveFilesImmediate"/>
     <ROW Action="AI_AiRemoveFilesRollback" Description="Restoring removed files" DescriptionLocId="ActionText.Description.AI_AiRemoveFilesRollback" Template="Restoring file: [1]" TemplateLocId="ActionText.Template.AI_AiRemoveFilesRollback"/>
-    <ROW Action="AI_AiRestoreDeferred" Description="Executing restore operation" DescriptionLocId="ActionText.Description.AI_AiRestoreDeferred" Template="Path: [1]" TemplateLocId="ActionText.Template.AI_AiRestoreDeferred"/>
-    <ROW Action="AI_AiRestoreRollback" Description="Rollback restore" DescriptionLocId="ActionText.Description.AI_AiRestoreRollback" Template="Path: [1]" TemplateLocId="ActionText.Template.AI_AiRestoreRollback"/>
     <ROW Action="AI_DeleteLzma" Description="Deleting files extracted from archive" DescriptionLocId="ActionText.Description.AI_DeleteLzma" TemplateLocId="-"/>
     <ROW Action="AI_DeleteRLzma" Description="Deleting files extracted from archive" DescriptionLocId="ActionText.Description.AI_DeleteLzma" TemplateLocId="-"/>
     <ROW Action="AI_ExtractFiles" Description="Extracting files from archive" DescriptionLocId="ActionText.Description.AI_ExtractLzma" TemplateLocId="-"/>
@@ -287,8 +265,6 @@
     <ROW Dialog_="PatchWelcomeDlg" Control_="PatchWelcomeDlgDialogInitializer" Event="[Text_Next]" Argument="[Text_Install]" Condition="AI_PATCH" Ordering="3" Options="2"/>
     <ROW Dialog_="PatchWelcomeDlg" Control_="Back" Event="[ButtonText_Next]" Argument="[AI_ButtonText_Next_Orig]" Condition="AI_PATCH" Ordering="0" Options="2"/>
     <ROW Dialog_="PatchWelcomeDlg" Control_="Back" Event="[Text_Next]" Argument="[AI_Text_Next_Orig]" Condition="AI_PATCH" Ordering="1" Options="2"/>
-    <ROW Dialog_="FatalError" Control_="Finish" Event="DoAction" Argument="AI_AiBackupCleanup" Condition="1" Ordering="201"/>
-    <ROW Dialog_="UserExit" Control_="Finish" Event="DoAction" Argument="AI_AiBackupCleanup" Condition="1" Ordering="101"/>
     <ROW Dialog_="NewDialog" Control_="Cancel" Event="SpawnDialog" Argument="CancelDlg" Condition="1" Ordering="100"/>
     <ROW Dialog_="ExitDialog" Control_="Finish" Event="[AiEventsControl]" Argument="LaunchProdCheckBox" Condition="AI_INSTALL" Ordering="101"/>
     <ROW Dialog_="NewDialog_1" Control_="Cancel" Event="SpawnDialog" Argument="CancelDlg" Condition="1" Ordering="100"/>
@@ -313,16 +289,11 @@
     <ROW Directory_="ProductName_Dir" Component_="ProductName" ManualDelete="true"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.MsiCustActComponent">
-    <ROW Action="AI_AiBackupCleanup" Type="1" Source="ResourceCleaner.dll" Target="OnAiBackupCleanup" WithoutSeq="true"/>
-    <ROW Action="AI_AiBackupImmediate" Type="1" Source="ResourceCleaner.dll" Target="OnAiBackupImmediate"/>
-    <ROW Action="AI_AiBackupRollback" Type="11521" Source="ResourceCleaner.dll" Target="OnAiBackupRollback"/>
     <ROW Action="AI_AiRemoveFilesCommit" Type="11777" Source="ResourceCleaner.dll" Target="OnAiRemoveFilesCommit" WithoutSeq="true"/>
     <ROW Action="AI_AiRemoveFilesDeferred_Permanent" Type="11265" Source="ResourceCleaner.dll" Target="OnAiRemoveFilesPermanent" WithoutSeq="true"/>
     <ROW Action="AI_AiRemoveFilesDeferred_Undoable" Type="11265" Source="ResourceCleaner.dll" Target="OnAiRemoveFilesUndoable" WithoutSeq="true"/>
     <ROW Action="AI_AiRemoveFilesImmediate" Type="1" Source="ResourceCleaner.dll" Target="OnAiRemoveFilesImmediate"/>
     <ROW Action="AI_AiRemoveFilesRollback" Type="11521" Source="ResourceCleaner.dll" Target="OnAiUndoRemoveFiles"/>
-    <ROW Action="AI_AiRestoreDeferred" Type="11265" Source="ResourceCleaner.dll" Target="OnAiRestoreDeferred"/>
-    <ROW Action="AI_AiRestoreRollback" Type="11521" Source="ResourceCleaner.dll" Target="OnAiRestoreRollback" WithoutSeq="true"/>
     <ROW Action="AI_BACKUP_AI_SETUPEXEPATH" Type="51" Source="AI_SETUPEXEPATH_ORIGINAL" Target="[AI_SETUPEXEPATH]"/>
     <ROW Action="AI_ChooseTextStyles" Type="1" Source="aicustact.dll" Target="ChooseTextStyles"/>
     <ROW Action="AI_DATA_SETTER" Type="51" Source="AI_ExtractFiles" Target="[AI_SETUPEXEPATH]"/>
@@ -388,16 +359,13 @@
   <COMPONENT cid="caphyon.advinst.msicomp.MsiInstExSeqComponent">
     <ROW Action="AI_DOWNGRADE" Condition="AI_NEWERPRODUCTFOUND AND (UILevel &lt;&gt; 5)" Sequence="210"/>
     <ROW Action="AI_RESTORE_LOCATION" Condition="APPDIR=&quot;&quot;" Sequence="745"/>
-    <ROW Action="AI_STORE_LOCATION" Condition="(Not Installed) OR REINSTALL" Sequence="1502"/>
+    <ROW Action="AI_STORE_LOCATION" Condition="(Not Installed) OR REINSTALL" Sequence="1501"/>
     <ROW Action="AI_PREPARE_UPGRADE" Condition="AI_UPGRADE=&quot;No&quot; AND (Not Installed)" Sequence="1399"/>
     <ROW Action="AI_ResolveKnownFolders" Sequence="52"/>
     <ROW Action="AI_REDIRECT_32BIT_FOLDER" Condition="NOT VersionNT64 AND NOT AI_Disable32BitRedirection" Sequence="798"/>
     <ROW Action="AI_REDIRECT_32BIT_SH_FOLDER" Condition="NOT VersionNT64 AND NOT AI_Disable32BitRedirection" Sequence="799"/>
     <ROW Action="AI_SETPROGRAMFILES64" Condition="VersionNT64" Sequence="746"/>
     <ROW Action="AI_SETPROGRAMFILES" Condition="NOT VersionNT64" Sequence="747"/>
-    <ROW Action="AI_AiBackupImmediate" Sequence="1001"/>
-    <ROW Action="AI_AiBackupRollback" Sequence="1501"/>
-    <ROW Action="AI_AiRestoreDeferred" Sequence="6597"/>
     <ROW Action="AI_XmlInstall" Condition="(REMOVE &lt;&gt; &quot;ALL&quot;)" Sequence="5102"/>
     <ROW Action="AI_DATA_SETTER_1" Condition="(REMOVE &lt;&gt; &quot;ALL&quot;)" Sequence="5101"/>
     <ROW Action="AI_XmlUninstall" Condition="(REMOVE)" Sequence="3102"/>
