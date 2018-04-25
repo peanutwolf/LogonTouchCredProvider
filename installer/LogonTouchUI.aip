@@ -94,7 +94,7 @@
     <ROW Path="&lt;AI_DICTS&gt;ui_en.ail"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.DigCertStoreComponent">
-    <ROW TimeStampUrl="http://timestamp.verisign.com/scripts/timstamp.dll" SignerDescription="[|ProductName]" SignOptions="0" SignTool="0"/>
+    <ROW DigitalCertificate="Bin\ltinstaller.p12" TimeStampUrl="http://timestamp.verisign.com/scripts/timstamp.dll" SignerDescription="[|ProductName]" SignOptions="7" SignTool="0"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.FirewallExceptionComponent">
     <ROW FirewallException="LogonUI64" DisplayName="LogonUI64" Enabled="1" Scope="*" Condition="VersionNT64 AND LOGON_UI_X64" Profiles="7" AppPath="[LOGON_UI_X64]" Port="*" Protocol="ANY"/>
@@ -451,7 +451,7 @@
     <ROW FileKey="__1" Component_="LogonTouchUI.exe" DirProperty="Manufacturer_Dir" InstallMode="2"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.MsiShortsComponent">
-    <ROW Shortcut="LogonTouchUI.exe" Directory_="SHORTCUTDIR" Name="LOGONT~1.EXE|LogonTouchUI.exe" Component_="LogonTouchUI.exe" Target="[#LogonTouchUI.exe]" Hotkey="0" Icon_="LogonTouchUI.exe" IconIndex="0" ShowCmd="1" WkDir="APPDIR" Advertised="true"/>
+    <ROW Shortcut="LogonTouchUI.exe" Directory_="SHORTCUTDIR" Name="LOGONT~1|LogonTouchUI" Component_="LogonTouchUI.exe" Target="[#LogonTouchUI.exe]" Hotkey="0" Icon_="LogonTouchUI.exe" IconIndex="0" ShowCmd="1" WkDir="APPDIR" Advertised="true"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.MsiSignatureComponent">
     <ROW Signature="FileSearchSign" FileName="LogonUI.exe"/>
